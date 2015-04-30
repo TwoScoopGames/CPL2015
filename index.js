@@ -25,12 +25,17 @@ ship.src = "images/ship-f20.png";
 var frame = 0;
 var frames = 20;
 var frameWidth = 232;
-var frameX = frame * frameWidth;
 
 var playerX = 50;
 var playerY = 50;
 var playerSpeed = 5;
 var render = function(elapsed) {
+	var frameX = frame * frameWidth;
+	frame++;
+	if (frame >= frames) {
+		frame = 0;
+	}
+
 	if (pressed["left"]) {
 		playerX -= playerSpeed;
 	}
