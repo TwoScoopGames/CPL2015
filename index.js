@@ -34,6 +34,8 @@ var render = function(elapsed) {
 	if (color >= colors.length) {
 		color = 0;
 	}
+
+	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.fillRect(playerX, 500, 50, 50);
 	window.requestAnimationFrame(render);
 }
