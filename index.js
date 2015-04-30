@@ -39,6 +39,11 @@ var playerSpeed = 5;
 var bullets = [];
 var meteors = [];
 
+function overlaps(x1, y1, w1, h1, x2, y2, w2, h2) {
+	return  x1 + w1 > x2 && x1 < x2 + w2 &&
+		y1 + h1 > y1 && y1 < y2 + h2;
+}
+
 var render = function(elapsed) {
 	var frameX = frame * frameWidth;
 	var meteorFrameX = frame * meteorFrameWidth;
@@ -90,9 +95,18 @@ var render = function(elapsed) {
 		}
 	});
 	context.fillStyle = "#3fd0ea";
-	bullets.forEach(function(bullet) {
+	bullets.forEach(function(bullet, i) {
 		context.fillRect(bullet.x, bullet.y - 20, 5, 20);
 		bullet.y -= 10;
+		if (bullet.y < -20) {
+			bullets.splice(i, 1);
+			return;
+		}
+		meteors.forEach(function(meteor, i) {
+			if (overlaps(bullet.x, bullet.y, 5, 20, meteor.x, meteor.y, 100, 100)) {
+				meteors.splice(i, 1);
+			}
+		});
 	});
 	window.requestAnimationFrame(render);
 }
