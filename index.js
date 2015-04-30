@@ -32,12 +32,12 @@ var frameWidth = 232;
 
 var meteorFrameWidth = 100;
 
-var playerX = 50;
-var playerY = 50;
+var playerX = (canvas.width / 2) - (frameWidth / 2);
+var playerY = 400;
 var playerSpeed = 5;
 
 var bullets = [];
-var meteors = [ {x: 30, y: 30 }];
+var meteors = [];
 
 var render = function(elapsed) {
 	var frameX = frame * frameWidth;
@@ -45,6 +45,13 @@ var render = function(elapsed) {
 	frame++;
 	if (frame >= frames) {
 		frame = 0;
+	}
+
+	while (meteors.length < 1) {
+		meteors.push({
+			x: Math.floor(Math.random() * (canvas.width - 100)),
+			y: -100
+		});
 	}
 
 	if (pressed["left"]) {
@@ -74,8 +81,12 @@ var render = function(elapsed) {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(ship, frameX, 0, frameWidth, 240, playerX, playerY, frameWidth, 240);
 
-	meteors.forEach(function(meteor) {
+	meteors.forEach(function(meteor, i) {
 		context.drawImage(meteorImage, meteorFrameX, 0, meteorFrameWidth, 100, meteor.x, meteor.y, meteorFrameWidth, 100);
+		meteor.y += 5;
+		if (meteor.y > canvas.height) {
+			meteors.splice(i, 1);
+		}
 	});
 	context.fillStyle = "#3fd0ea";
 	bullets.forEach(function(bullet) {
