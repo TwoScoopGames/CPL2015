@@ -47,10 +47,11 @@ var render = function(elapsed) {
 		frame = 0;
 	}
 
-	while (meteors.length < 1) {
+	while (meteors.length < 3) {
 		meteors.push({
 			x: Math.floor(Math.random() * (canvas.width - 100)),
-			y: -100
+			y: -100 - Math.floor(Math.random() * 300),
+			speed: 5 + Math.floor(Math.random() * 5)
 		});
 	}
 
@@ -83,7 +84,7 @@ var render = function(elapsed) {
 
 	meteors.forEach(function(meteor, i) {
 		context.drawImage(meteorImage, meteorFrameX, 0, meteorFrameWidth, 100, meteor.x, meteor.y, meteorFrameWidth, 100);
-		meteor.y += 5;
+		meteor.y += meteor.speed;
 		if (meteor.y > canvas.height) {
 			meteors.splice(i, 1);
 		}
