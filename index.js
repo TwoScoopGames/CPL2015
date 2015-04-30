@@ -23,18 +23,25 @@ window.addEventListener("keyup", function(e) {
 var ship = new Image();
 ship.src = "images/ship-f20.png";
 
+var meteorImage = new Image();
+meteorImage.src = "images/meteor-f20.png";
+
 var frame = 0;
 var frames = 20;
 var frameWidth = 232;
+
+var meteorFrameWidth = 100;
 
 var playerX = 50;
 var playerY = 50;
 var playerSpeed = 5;
 
 var bullets = [];
+var meteors = [ {x: 30, y: 30 }];
 
 var render = function(elapsed) {
 	var frameX = frame * frameWidth;
+	var meteorFrameX = frame * meteorFrameWidth;
 	frame++;
 	if (frame >= frames) {
 		frame = 0;
@@ -67,6 +74,9 @@ var render = function(elapsed) {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(ship, frameX, 0, frameWidth, 240, playerX, playerY, frameWidth, 240);
 
+	meteors.forEach(function(meteor) {
+		context.drawImage(meteorImage, meteorFrameX, 0, meteorFrameWidth, 100, meteor.x, meteor.y, meteorFrameWidth, 100);
+	});
 	context.fillStyle = "#3fd0ea";
 	bullets.forEach(function(bullet) {
 		context.fillRect(bullet.x, bullet.y - 20, 5, 20);
