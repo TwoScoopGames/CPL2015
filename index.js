@@ -5,6 +5,7 @@ var colors = [ "#ff0000", "#00ff00", "#0000ff" ];
 var color = 0;
 
 var keys = {
+	32: "space",
 	37: "left",
 	38: "up",
 	39: "right",
@@ -29,6 +30,9 @@ var frameWidth = 232;
 var playerX = 50;
 var playerY = 50;
 var playerSpeed = 5;
+
+var bullets = [];
+
 var render = function(elapsed) {
 	var frameX = frame * frameWidth;
 	frame++;
@@ -48,6 +52,12 @@ var render = function(elapsed) {
 	if (pressed["down"]) {
 		playerY += playerSpeed;
 	}
+	if (pressed["space"]) {
+		bullets.push({
+			x: playerX + (frameWidth / 2),
+			y: playerY
+		});
+	}
 
 	context.fillStyle = colors[color];
 	color++;
@@ -57,6 +67,11 @@ var render = function(elapsed) {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(ship, frameX, 0, frameWidth, 240, playerX, playerY, frameWidth, 240);
 
+	context.fillStyle = "#3fd0ea";
+	bullets.forEach(function(bullet) {
+		context.fillRect(bullet.x, bullet.y - 20, 5, 20);
+		bullet.y -= 10;
+	});
 	window.requestAnimationFrame(render);
 }
 window.requestAnimationFrame(render);
