@@ -38,6 +38,7 @@ var playerSpeed = 5;
 
 var bullets = [];
 var meteors = [];
+var score = 0;
 
 function overlaps(x1, y1, w1, h1, x2, y2, w2, h2) {
 	return  x1 + w1 > x2 && x1 < x2 + w2 &&
@@ -104,10 +105,16 @@ var render = function(elapsed) {
 		}
 		meteors.forEach(function(meteor, i) {
 			if (overlaps(bullet.x, bullet.y, 5, 20, meteor.x, meteor.y, 100, 100)) {
+				score++;
 				meteors.splice(i, 1);
 			}
 		});
 	});
+
+	context.fillStyle = "#fff";
+	context.font = "25px helvetica";
+	context.fillText("SCORE: " + score, 50, 50);
+
 	window.requestAnimationFrame(render);
 }
 window.requestAnimationFrame(render);
