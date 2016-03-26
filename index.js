@@ -40,18 +40,33 @@ var bullets = [];
 var meteors = [];
 var score = 0;
 
+var lastFrameTime = null;
+var frameTimerMax = 50;
+var frameTimer = 0;
+
 function overlaps(x1, y1, w1, h1, x2, y2, w2, h2) {
 	return  x1 + w1 > x2 && x1 < x2 + w2 &&
 		y1 + h1 > y1 && y1 < y2 + h2;
 }
 
-var render = function(elapsed) {
+var render = function(time) {
+	if (lastFrameTime === null) {
+		lastFrameTime = time;
+	}
+	var elapsed = time - lastFrameTime;
+	lastFrameTime = time;
+
+	frameTimer += elapsed;
+	while (frameTimer > frameTimerMax) {
+		frameTimer -= frameTimerMax;
+		frame++;
+		if (frame >= frames) {
+			frame = 0;
+		}
+	}
+
 	var frameX = frame * frameWidth;
 	var meteorFrameX = frame * meteorFrameWidth;
-	frame++;
-	if (frame >= frames) {
-		frame = 0;
-	}
 
 	while (meteors.length < 3) {
 		meteors.push({
