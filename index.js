@@ -46,6 +46,14 @@ var frameTimer = 0;
 var fireTimerMax = 100;
 var fireTimer = fireTimerMax;
 
+var explode = new Audio();
+explode.src = "sounds/explode.wav";
+explode.load();
+
+var laser = new Audio();
+laser.src = "sounds/laser.wav";
+laser.load();
+
 function overlaps(x1, y1, w1, h1, x2, y2, w2, h2) {
 	return  x1 + w1 > x2 && x1 < x2 + w2 &&
 		y1 + h1 > y1 && y1 < y2 + h2;
@@ -93,6 +101,10 @@ var render = function(time) {
 	}
 	if (pressed["space"] && fireTimer > fireTimerMax) {
 		fireTimer = 0;
+
+		var l = laser.cloneNode(true);
+		l.play();
+
 		bullets.push({
 			x: playerX + (frameWidth / 2),
 			y: playerY
@@ -125,6 +137,8 @@ var render = function(time) {
 		meteors.forEach(function(meteor, i) {
 			if (overlaps(bullet.x, bullet.y, 5, 20, meteor.x, meteor.y, 100, 100)) {
 				score++;
+				var e = explode.cloneNode(true);
+				e.play();
 				meteors.splice(i, 1);
 			}
 		});
