@@ -43,6 +43,8 @@ var score = 0;
 var lastFrameTime = null;
 var frameTimerMax = 50;
 var frameTimer = 0;
+var fireTimerMax = 100;
+var fireTimer = fireTimerMax;
 
 function overlaps(x1, y1, w1, h1, x2, y2, w2, h2) {
 	return  x1 + w1 > x2 && x1 < x2 + w2 &&
@@ -67,6 +69,7 @@ var render = function(time) {
 
 	var frameX = frame * frameWidth;
 	var meteorFrameX = frame * meteorFrameWidth;
+	fireTimer += elapsed;
 
 	while (meteors.length < 3) {
 		meteors.push({
@@ -88,7 +91,8 @@ var render = function(time) {
 	if (pressed["down"]) {
 		playerY += playerSpeed;
 	}
-	if (pressed["space"]) {
+	if (pressed["space"] && fireTimer > fireTimerMax) {
+		fireTimer = 0;
 		bullets.push({
 			x: playerX + (frameWidth / 2),
 			y: playerY
